@@ -41,14 +41,19 @@ int main(void)
 		edgeMatrix[va][vb] = value;
 	}
 	int s = 0;
+    int e = 0;
 	int dis[vertexNum];						//起点到各个结点的距离
 	bool vis[vertexNum];					//访问标志
+    int pre[vertexNum]; //前驱结点用于倒序输出终点到起点的最短路径
 	for (int i = 0; i < vertexNum; i++) {
 		dis[i] = INFINITE;
 		vis[i] = false;
+        pre[i] = 0;
 	}
 	cout << "起点:";
 	cin >> s;
+    cout << "终点:";
+    cin >> e;
 	int v = s;
 	dis[s] = 0;
 	vis[s] = true;
@@ -58,6 +63,7 @@ int main(void)
 		for (int i = 0; i < vertexNum; i++) {	//松弛相邻结点
 			if (dis[i] > dis[v] + edgeMatrix[v][i]) {
 				dis[i] = dis[v] + edgeMatrix[v][i];
+                pre[i] = v; //记录最终松弛前驱结点
 			}
 		}
 		min = INFINITE;
@@ -70,12 +76,18 @@ int main(void)
 		vis[v] = true;
 		v = min_path;
 	} while (min != INFINITE);		//能找到下一结点
+    cout << "起点到各结点的最短路径长度:"<<endl;
 	for (int i = 0; i < vertexNum; i++) {
 		if (dis[i] == INFINITE)
 			cout << "+∞" << " ";
 		else
 			cout << dis[i] << " ";
 	}
+    cout << endl;
+    cout << "起点到终点的最短路径:"<<endl;
+	for (int i = 0; i < vertexNum; i++) {
+        cout << pre[i] << " ";
+    }
 	cout << endl;
 	return 0;
 }
