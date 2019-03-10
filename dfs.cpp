@@ -48,7 +48,7 @@ int main(void)
     int pre[vertexNum];
 	for (int i = 0; i < vertexNum; i++) {
 		vis[i] = false;
-        pre[i] = 0;
+        pre[i] = -1;
 	}
 	cout << "起点:";
 	cin >> s;
@@ -60,6 +60,7 @@ int main(void)
     vector<int> len;
     stack<int> sk;
     sk.push(v);
+    vis[v]=true;
     //dfs
     int i=0;
 	do {
@@ -73,13 +74,10 @@ int main(void)
                     int j=i;
                     int length=0;
                     path.clear();
-                    path.push_back(i);
-                    do{
+                    path.push_back(e);
+                    while(pre[j]!=-1){
                         path.push_back(pre[j]);
                         length+=edgeMatrix[pre[j]][j];
-                        if(pre[j]==0) {
-                            break;
-                        }
                         j=pre[j];
                     }while(true);
                     vis[i]=false; //最后一个结点在每条路径查找时应是未被访问的
